@@ -479,14 +479,15 @@
         };
 
         // Inicializar a aplicação
-        window.onload = function() {
-            loadFromLocalStorage();
-            buildTable();
-            buildQuotesTable();
-            buildItinerary();
-            buildChecklists();
-            recalculateAll();
-        };
+       window.onload = async function () {
+
+  await loadCloudData();
+
+  buildTable();
+  buildItinerary();
+  buildChecklists();
+  recalculateAll();
+};
 
         // Função moderna de notificação (Toast) sem usar alert()
         function showNotification(message, type = 'success') {
@@ -1019,7 +1020,22 @@ async function saveCloudData() {
 }
 
 
-async function loadCloudData() {
+async async function loadCloudData() {
+
+  const docRef = doc(db, "trip", "santiago");
+
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+
+    state = docSnap.data();
+
+    buildTable();
+    buildItinerary();
+    buildChecklists();
+    recalculateAll();
+  }
+} {
 
   const docRef = doc(db, "trip", "santiago");
 

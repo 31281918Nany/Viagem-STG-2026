@@ -316,9 +316,9 @@
                             <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold text-xs uppercase tracking-wider">
                                 <th class="p-3 w-3/12">Item / Atividade</th>
                                 <th class="p-3 w-2/12">Categoria</th>
-                                <th class="p-3 w-1.5/12 text-right">Total CLP ($)</th>
-                                <th class="p-3 w-1.5/12 text-right">Total BRL (R$)</th>
-                                <th class="p-3 w-2/12 text-right bg-blue-50/50 text-chileBlue">Individual (R$)</th>
+                                <th class="p-3 min-w-[170px] text-right">Total CLP ($)</th>
+                                <th class="p-3 min-w-[170px] text-right">Total BRL (R$)</th>
+                                <th class="p-3 min-w-[180px] text-right bg-blue-50/50 text-chileBlue">Individual (R$)</th>
                                 <th class="p-3 w-2/12">Link Útil (URL)</th>
                                 <th class="p-3 w-1/12">Quem</th>
                                 <th class="p-3 w-1/12 text-center">Status</th>
@@ -632,9 +632,15 @@
                     <td class="p-3 font-semibold text-slate-700">
                         <input type="number" value="${item.brl}" oninput="updateSpendingValue(${index}, 'brl', this.value)" class="w-full bg-white border border-slate-200 rounded px-2 py-1 focus:outline-none focus:border-emerald-500 text-right">
                     </td>
-                    <td class="p-3 font-bold text-right bg-blue-50/50 text-chileBlue text-sm">
-                        <span class="span-individual-brl" id="individualBrl-${index}">${formatCurrency(individualValue, 'BRL')}</span>
-                    </td>
+                   <td class="p-3 bg-blue-50/50">
+    <input 
+        type="text"
+        value=""
+        placeholder="Preencher"
+        onchange="updateSpending(${index}, 'individual', this.value)"
+        class="w-full min-w-[150px] bg-white border border-blue-200 rounded-lg px-3 py-2 text-right font-bold text-chileBlue focus:outline-none focus:border-chileBlue"
+    >
+</td>
                     <td class="p-3">
                         <div class="flex items-center gap-1.5 w-full">
                             <input type="text" value="${item.link || ''}" onchange="updateSpending(${index}, 'link', this.value); rebuildAndMaintain(${index})" placeholder="Link da Reserva / Site" class="w-full bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:outline-none focus:border-chileBlue">

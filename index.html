@@ -103,7 +103,7 @@
                     <input type="number" id="exchangeRateInput" value="179.5" step="0.1" class="w-20 font-bold text-chileBlue text-lg focus:outline-none text-center" oninput="recalculateAll()">
                     <span class="font-bold text-slate-500 text-sm">CLP ($)</span>
                 </div>
-                <button onclick="saveToLocalStorage()" class="bg-chileBlue text-white hover:bg-blue-800 transition px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow">
+                <button onclick="saveCloudData()" class="bg-chileBlue text-white hover:bg-blue-800 transition px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow">
                     <i class="fa-solid fa-floppy-disk"></i> Salvar Planilha
                 </button>
             </div>
@@ -991,6 +991,68 @@
             state[list][index].checked = !state[list][index].checked;
             buildChecklists();
         }
-    </script>
+    </script><script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_AUTH_DOMAIN",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_STORAGE_BUCKET",
+  messagingSenderId: "SEU_ID",
+  appId: "SEU_APP_ID"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+async function saveCloudData() {
+  await setDoc(doc(db, "trip", "santiago"), state);
+
+  alert("☁️ Dados salvos na nuvem!");
+}
+
+
+async function loadCloudData() {
+  const docRef = doc(db, "trip", "santiago");
+
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    state = docSnap.data();
+
+    buildTable();
+    buildItinerary();
+    buildChecklists();
+    recalculateAll();
+  }
+}
+
+
+window.saveCloudData = saveCloudData;
+
+window.onload = async function () {
+
+  await loadCloudData();
+
+  buildTable();
+  buildItinerary();
+  buildChecklists();
+  recalculateAll();
+};
+
+</script>
 </body>
 </html>

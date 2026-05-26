@@ -1003,14 +1003,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_ID",
-  appId: "SEU_APP_ID"
-};
+const app = initializeApp(firebaseConfig);
 
 
 const app = initializeApp(firebaseConfig);
@@ -1019,6 +1012,7 @@ const db = getFirestore(app);
 
 
 async function saveCloudData() {
+
   await setDoc(doc(db, "trip", "santiago"), state);
 
   alert("☁️ Dados salvos na nuvem!");
@@ -1026,33 +1020,13 @@ async function saveCloudData() {
 
 
 async function loadCloudData() {
+
   const docRef = doc(db, "trip", "santiago");
 
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
+
     state = docSnap.data();
-
-    buildTable();
-    buildItinerary();
-    buildChecklists();
-    recalculateAll();
-  }
-}
-
-
-window.saveCloudData = saveCloudData;
-
-window.onload = async function () {
-
-  await loadCloudData();
-
-  buildTable();
-  buildItinerary();
-  buildChecklists();
-  recalculateAll();
-};
-
-</script>
 </body>
 </html>
